@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.25)
+
+set(COMPILE_CXX OFF)
+if(COMPILE_CXX)
+    set(PROJECT_NAME args-parser-cxx)
+    project(${PROJECT_NAME} CXX)
+else()
+    set(PROJECT_NAME args-parser)
+    project(${PROJECT_NAME} C)
+endif()
+
+function(recursive_include_directory target dir)
+    get_filename_component(ABSOLUTE_PATH ${dir} ABSOLUTE)
+    if(IS_DIRECTORY ${ABSOLUTE_PATH})
+        include_directories(${target} ${ABSOLUTE_PATH})
+        file(GLOB children ${ABSOLUTE_PATH}/*)
+        foreach(child ${children})
+            recursive_include_directory(${target} ${child})
+        endforeach()
+    endif()
+endfunction(recursive_include_directory)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_CXX_COMPILER "g++")
+
+if(COMPILE_CXX)
+    file(GLOB_RECURSE SOURCES "./main.cpp" "./src/cpp/*.c" "./src/cpp/*.h")
+else()
+    file(GLOB_RECURSE SOURCES "./main.c" "./src/c/*.c" "./src/c/*.h")
+endif()
+
+# file(GLOB_RECURSE SOURCES ./src/${PROJECT_NAME}/*.c ./src/${PROJECT_NAME}/*.h)
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+# include_directories(${PROJECT_NAME} "./src")
+recursive_include_directory(${PROJECT_NAME} src)
