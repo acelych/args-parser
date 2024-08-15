@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-set(COMPILE_CXX OFF)
+set(COMPILE_CXX ON)
 if(COMPILE_CXX)
     set(PROJECT_NAME args-parser-cxx)
     project(${PROJECT_NAME} CXX)
@@ -25,7 +25,7 @@ set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 
 if(COMPILE_CXX)
-    file(GLOB_RECURSE SOURCES "./main.cpp" "./src/cpp/*.c" "./src/cpp/*.h")
+    file(GLOB_RECURSE SOURCES "./main.cpp" "./src/cpp/*.cpp" "./src/cpp/*.hpp")
 else()
     file(GLOB_RECURSE SOURCES "./main.c" "./src/c/*.c" "./src/c/*.h")
 endif()
