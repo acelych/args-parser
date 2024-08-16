@@ -9,5 +9,6 @@ std::vector<ArgOption> args =
 
 int main(int argc, char const *argv[]) {
     auto parser = new ArgsParser("Example app", args, argc, argv);
+    delete parser;
     return 0;
 }
