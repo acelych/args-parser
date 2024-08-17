@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.10)  # Adjust as needed for your CMake version
 project(SAR_SIFT)
 
 # Find OpenCV package
+# set(CMAKE_PREFIX_PATH "C:/Environment/opencv/build")
 find_package(OpenCV REQUIRED)
 
 # Include OpenCV headers

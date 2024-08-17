@@ -1,8 +1,8 @@
 #ifndef _SAR_SIFT_H_
 #define _SAR_SIFT_H_
 
-#include<opencv2/core/core.hpp>
-#include<opencv2/features2d/features2d.hpp>
+#include<opencv2\core\core.hpp>
+#include<opencv2\features2d\features2d.hpp>
 
 #include<iostream>
 
@@ -10,64 +10,64 @@ using namespace std;
 using namespace cv;
 
 
-//¶¨Òå³£Á¿²ÎÊı
-const int SAR_SIFT_MAX_KEYPOINTS = 4000;//¼ì²âµÄÌØÕ÷µã¸öÊı×î´óÖµ£¬²Î¼ûuniform robust sift
+//å®šä¹‰å¸¸é‡å‚æ•°
+const int SAR_SIFT_MAX_KEYPOINTS = 4000;//æ£€æµ‹çš„ç‰¹å¾ç‚¹ä¸ªæ•°æœ€å¤§å€¼ï¼Œå‚è§uniform robust sift
 
-const int SAR_SIFT_LATERS = 8;//sar-siftËã·¨³ß¶È¿Õ¼ä²ãÊı
+const int SAR_SIFT_LATERS = 8;//sar-siftç®—æ³•å°ºåº¦ç©ºé—´å±‚æ•°
 
-const float SAR_SIFT_FACT_RADIUS_ORI = 6.0f;//¼ÆËãÖ÷·½ÏòÊ±ºòÌØÕ÷µãÁÚÓò°ë¾¶
+const float SAR_SIFT_FACT_RADIUS_ORI = 6.0f;//è®¡ç®—ä¸»æ–¹å‘æ—¶å€™ç‰¹å¾ç‚¹é‚»åŸŸåŠå¾„
 
-const float SAR_SIFT_RADIUS_DES = 12.0f;//ÃèÊö×ÓÁÚÓò°ë¾¶
+const float SAR_SIFT_RADIUS_DES = 12.0f;//æè¿°å­é‚»åŸŸåŠå¾„
 
-const int SAR_SIFT_BORDER_CONSTANT = 2;//ÌØÕ÷µã¼ì²âÊ±±ß½ç³£Á¿
+const int SAR_SIFT_BORDER_CONSTANT = 2;//ç‰¹å¾ç‚¹æ£€æµ‹æ—¶è¾¹ç•Œå¸¸é‡
 
-const int SAR_SIFT_ORI_BINS = 36;//Ö÷·½ÏòÖ±·½Í¼Î¬¶È
+const int SAR_SIFT_ORI_BINS = 36;//ä¸»æ–¹å‘ç›´æ–¹å›¾ç»´åº¦
 
-const float SAR_SIFT_ORI_RATIO = 0.8f;//Ö÷·½ÏòÖ±·½Í¼£¬·åÖµ±ÈÀı
+const float SAR_SIFT_ORI_RATIO = 0.8f;//ä¸»æ–¹å‘ç›´æ–¹å›¾ï¼Œå³°å€¼æ¯”ä¾‹
 
-/*Ô­Ê¼sar-siftÖĞGLOHÔÚ½Ç¶È·½Ïò·ÖÎª4¸öÍø¸ñ£¬8¸öÍø¸ñĞ§¹û¸üºÃ*/
-const int SAR_SIFT_GLOH_ANG_GRID = 8;//GLOHÍø¸ñÑØ½Ç¶È·½ÏòµÈ·ÖÇø¼ä¸öÊı
+/*åŸå§‹sar-siftä¸­GLOHåœ¨è§’åº¦æ–¹å‘åˆ†ä¸º4ä¸ªç½‘æ ¼ï¼Œ8ä¸ªç½‘æ ¼æ•ˆæœæ›´å¥½*/
+const int SAR_SIFT_GLOH_ANG_GRID = 8;//GLOHç½‘æ ¼æ²¿è§’åº¦æ–¹å‘ç­‰åˆ†åŒºé—´ä¸ªæ•°
 
-const float SAR_SIFT_GLOH_RATIO_R1_R2 = 0.73f;//GLOHÍø¸ñÖĞ¼äÔ²°ë¾¶ºÍÍâÔ²°ë¾¶Ö®±È
+const float SAR_SIFT_GLOH_RATIO_R1_R2 = 0.73f;//GLOHç½‘æ ¼ä¸­é—´åœ†åŠå¾„å’Œå¤–åœ†åŠå¾„ä¹‹æ¯”
 
-const float SAR_SIFT_GLOH_RATIO_R1_R3 = 0.25f;//GLOHÍø¸ñ×îÄÚ²ãÔ²°ë¾¶ºÍÍâÔ²°ë¾¶Ö®±È
+const float SAR_SIFT_GLOH_RATIO_R1_R3 = 0.25f;//GLOHç½‘æ ¼æœ€å†…å±‚åœ†åŠå¾„å’Œå¤–åœ†åŠå¾„ä¹‹æ¯”
 
-const int SAR_SIFT_DES_ANG_BINS = 8;//ÏñËØÌİ¶È·½ÏòÔÚ0-360¶ÈÄÚµÈ·ÖÇø¼ä¸öÊı
+const int SAR_SIFT_DES_ANG_BINS = 8;//åƒç´ æ¢¯åº¦æ–¹å‘åœ¨0-360åº¦å†…ç­‰åˆ†åŒºé—´ä¸ªæ•°
 
-const float DESCR_MAG_THR = 0.2f;//ÃèÊö×ÓãĞÖµ
+const float DESCR_MAG_THR = 0.2f;//æè¿°å­é˜ˆå€¼
 
 class Sar_sift
 {
 public:
-	//Ä¬ÈÏ¹¹Ôìº¯Êı
+	//é»˜è®¤æ„é€ å‡½æ•°
 	Sar_sift(int nFeatures = 0, int Mmax = 8, double sigma = 2.0, double ratio = pow(2, 1.0 / 3.0),
 		double threshold = 0.8,double d=0.04) :
 		nFeatures(nFeatures), Mmax(Mmax),sigma(sigma), ratio(ratio), 
 		threshold(threshold),d(d){}
 
-	//¸Ãº¯Êı¹¹½¨sar_harris³ß¶È¿Õ¼ä
+	//è¯¥å‡½æ•°æ„å»ºsar_harriså°ºåº¦ç©ºé—´
 	void build_sar_sift_space(const Mat &image, vector<Mat> &sar_harris_fun, vector<Mat> &gradient, vector<Mat> &orient);
 
-	//¸Ãº¯ÊıÔÚ³ß¶È¿Õ¼ä½ø¶È¾Ö²¿¼«Öµµã¼ì²â
+	//è¯¥å‡½æ•°åœ¨å°ºåº¦ç©ºé—´è¿›åº¦å±€éƒ¨æå€¼ç‚¹æ£€æµ‹
 	void find_space_extrema(const vector<Mat> &harris_fun, const vector<Mat> &amplit, const vector<Mat> &orient, vector<KeyPoint> &keys);
 
-	//¸Ãº¯ÊıÉú³ÉÌØÕ÷µãµÄÌØÕ÷ÃèÊö×Ó
+	//è¯¥å‡½æ•°ç”Ÿæˆç‰¹å¾ç‚¹çš„ç‰¹å¾æè¿°å­
 	void calc_descriptors(const vector<Mat> &amplit, const vector<Mat> &orient, const vector<KeyPoint> &keys, Mat &descriptors);
 
-	//¼ì²âÌØÕ÷µã
+	//æ£€æµ‹ç‰¹å¾ç‚¹
 	void detect_keys(const Mat &image, vector<KeyPoint> &keys, vector<Mat> &harris_fun, vector<Mat> &amplit, vector<Mat> &orient);
 
-	//ÃèÊö×ÓÉú³É
+	//æè¿°å­ç”Ÿæˆ
 	void comput_des(const vector<KeyPoint> &keys, const vector<Mat> &amplit, const vector<Mat> &orient, Mat &des);
 
 
 private:
-	int nFeatures;//ÌØÕ÷µã¸öÊıÉè¶¨,Èç¹ûÎª0£¬±íÊ¾²»ÏŞ¶¨ÌØÕ÷µã¸öÊı
-	int Mmax;//³ß¶È¿Õ¼ä²ãÊı,Ä¬ÈÏÊÇ8
-	double sigma;//³õÊ¼²ãµÄ³ß¶È£¬Ä¬ÈÏÊÇ2
-	double ratio;//ÏàÁÚÁ½²ãµÄ³ß¶È±È,Ä¬ÈÏÊÇ2^(1/3)
-	double threshold;//Harrisº¯ÊıÏìÓ¦ãĞÖµ,Ä¬ÈÏÊÇ0.8
-	double d = 0.04;//sar_haiirsº¯Êı±í´ïÊ½ÖĞµÄÈÎÒâ²ÎÊı£¬Ä¬ÈÏÊÇ0.04
+	int nFeatures;//ç‰¹å¾ç‚¹ä¸ªæ•°è®¾å®š,å¦‚æœä¸º0ï¼Œè¡¨ç¤ºä¸é™å®šç‰¹å¾ç‚¹ä¸ªæ•°
+	int Mmax;//å°ºåº¦ç©ºé—´å±‚æ•°,é»˜è®¤æ˜¯8
+	double sigma;//åˆå§‹å±‚çš„å°ºåº¦ï¼Œé»˜è®¤æ˜¯2
+	double ratio;//ç›¸é‚»ä¸¤å±‚çš„å°ºåº¦æ¯”,é»˜è®¤æ˜¯2^(1/3)
+	double threshold;//Harriså‡½æ•°å“åº”é˜ˆå€¼,é»˜è®¤æ˜¯0.8
+	double d = 0.04;//sar_haiirså‡½æ•°è¡¨è¾¾å¼ä¸­çš„ä»»æ„å‚æ•°ï¼Œé»˜è®¤æ˜¯0.04
 };
 
 

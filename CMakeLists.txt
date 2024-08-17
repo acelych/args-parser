@@ -25,9 +25,11 @@ set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 
 if(COMPILE_CXX)
-    file(GLOB_RECURSE SOURCES "./main.cpp" "./src/cpp/*.cpp" "./src/cpp/*.hpp")
+    file(GLOB_RECURSE SOURCES "./src/cpp/*.cpp" "./src/cpp/*.hpp")
+    list(APPEND SOURCES "${CMAKE_SOURCE_DIR}/main.cpp")
 else()
-    file(GLOB_RECURSE SOURCES "./main.c" "./src/c/*.c" "./src/c/*.h")
+    file(GLOB_RECURSE SOURCES "./src/c/*.c" "./src/c/*.h")
+    list(APPEND SOURCES "${CMAKE_SOURCE_DIR}/main.c")
 endif()
 
 # file(GLOB_RECURSE SOURCES ./src/${PROJECT_NAME}/*.c ./src/${PROJECT_NAME}/*.h)
