@@ -5,16 +5,23 @@
 #include <system_error>
 #include <vector>
 
+/**
+ * @struct ArgOption
+ * @brief  Defines the structure for a command-line option.
+ *
+ * This struct describes a specific command-line option, such as "-h" or "--help".
+ */
 struct ArgOption
 {
-    std::string name;
-    std::string full_name;
-    std::string description;
-    bool        required;
-    int         least_params;
+    std::string name;         ///< The short name of the option, e.g., "-h".
+    std::string full_name;    ///< The full name of the option, e.g., "--help".
+    std::string description;  ///< The description of the option for the help message.
+    bool        required;     ///< A flag indicating whether the option is mandatory.
+    int         least_params; ///< The minimum number of parameters this option requires.
 
-    int idx;
-    int params;
+    // --- Members below are populated after parsing ---
+    int idx;    ///< The index where the option was found in the argv array. -1 if not found.
+    int params; ///< The actual number of parameters found for this option.
 
     ArgOption(
         const std::string &n, const std::string &fn, const std::string &desc, bool req, int least)
@@ -24,6 +31,13 @@ struct ArgOption
     }
 };
 
+/**
+ * @class ArgsParser
+ * @brief A command-line argument parser class.
+ *
+ * This class is designed to parse argc and argv from the main function,
+ * supporting sub-commands and automatic help message generation.
+ */
 class ArgsParser
 {
 private:
