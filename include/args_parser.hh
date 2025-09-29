@@ -126,17 +126,20 @@ private:
     std::vector<ArgOption>  args_list;
     std::vector<ArgsParser> subparsers;
 
+    bool allow_unexpected_arg = false;
 public:
-    ArgsParser(const std::string description, int argc, char **argv);
+    ArgsParser(const std::string description, int argc, char **argv, bool allow_unexpected_arg = false);
     ArgsParser(const std::string            description,
                const std::vector<ArgOption> args_list,
                int                          argc,
-               char                       **argv);
+               char                       **argv,
+               bool                         allow_unexpected_arg = false);
     ArgsParser(const std::string            cmd_name,
                const std::string            description,
                const std::vector<ArgOption> args_list,
                int                          argc,
-               char                       **argv);
+               char                       **argv,
+               bool                         allow_unexpected_arg = false);
     ~ArgsParser();
 
     std::error_code addSubParser(ArgsParser subparser);
@@ -204,8 +207,8 @@ inline static std::string toUpperString(std::string src)
     return src;
 }
 
-inline ArgsParser::ArgsParser(const std::string description, int argc, char **argv)
-    : description(description), argc(argc), argv(argv)
+inline ArgsParser::ArgsParser(const std::string description, int argc, char **argv, bool allow_unexpected_arg)
+    : description(description), argc(argc), argv(argv), allow_unexpected_arg(allow_unexpected_arg)
 {
     this->addArgOpt("h", "help", "show this help message and exit", false, 0);
 
@@ -220,20 +223,22 @@ inline ArgsParser::ArgsParser(const std::string description, int argc, char **ar
 }
 
 inline ArgsParser::ArgsParser(const std::string            description,
-                       const std::vector<ArgOption> args_list,
-                       int                          argc,
-                       char                       **argv)
-    : ArgsParser(description, argc, argv)
+                              const std::vector<ArgOption> args_list,
+                              int                          argc,
+                              char                       **argv,
+                              bool                         allow_unexpected_arg)
+    : ArgsParser(description, argc, argv, allow_unexpected_arg)
 {
     this->args_list.insert(this->args_list.end(), args_list.begin(), args_list.end());
 }
 
 inline ArgsParser::ArgsParser(const std::string            cmd_name,
-                       const std::string            description,
-                       const std::vector<ArgOption> args_list,
-                       int                          argc,
-                       char                       **argv)
-    : ArgsParser(description, argc, argv)
+                              const std::string            description,
+                              const std::vector<ArgOption> args_list,
+                              int                          argc,
+                              char                       **argv,
+                              bool                         allow_unexpected_arg)
+    : ArgsParser(description, argc, argv, allow_unexpected_arg)
 {
     this->args_list.insert(this->args_list.end(), args_list.begin(), args_list.end());
     this->cmd_name     = cmd_name; // Set the task name for subparser
@@ -313,7 +318,7 @@ inline std::error_code ArgsParser::parseArgs()
                     break;
                 }
             }
-            if (!found)
+            if (!found && !allow_unexpected_arg)
             {
                 printf("Unexpected argument: \'%s\'\n", argv[i]);
                 return std::make_error_code(std::errc::invalid_argument);
