@@ -22,6 +22,7 @@ endfunction(recursive_include_directory)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_COMPILER "g++")
 
 if(COMPILE_CXX)
@@ -37,3 +38,4 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCES})
 # include_directories(${PROJECT_NAME} "./src")
 recursive_include_directory(${PROJECT_NAME} src)
+recursive_include_directory(${PROJECT_NAME} include)

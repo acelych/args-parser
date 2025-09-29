@@ -4,6 +4,9 @@
 
 #include "args_parser.hpp"
 
+namespace ap
+{
+
 std::string toUpperString(std::string src)
 {
     std::transform(src.begin(), src.end(), src.begin(),
@@ -68,9 +71,11 @@ std::error_code ArgsParser::addArgOpt(std::string name,
                                       std::string full_name,
                                       std::string description,
                                       bool        required,
-                                      int         least_params)
+                                      int         least_params,
+                                      str2any     typer,
+                                      std::any    default_value)
 {
-    this->args_list.emplace_back(ArgOption(name, full_name, description, required, least_params));
+    this->args_list.emplace_back(ArgOption(name, full_name, description, required, least_params, typer, default_value));
     return std::error_code();
 }
 
@@ -221,18 +226,10 @@ std::error_code ArgsParser::showHelpMsg()
     return std::error_code();
 }
 
-bool ArgsParser::isArgOpt(std::string name)
-{
-    auto it = this->findArgOpt(name);
-    if (it == nullptr)
-        return false;     // Not found
-    return it->idx != -1; // Found and has been set
-}
-
-ArgOption *ArgsParser::findArgOpt(std::string name)
+ArgOption *ArgsParser::getOpt(std::string name)
 {
     if (!this->is_subparser && this->relative != nullptr)
-        return this->relative->findArgOpt(name); // Search in the relative parser
+        return this->relative->getOpt(name); // Search in the relative parser
 
     for (auto &&arg : this->args_list)
     {
@@ -244,18 +241,12 @@ ArgOption *ArgsParser::findArgOpt(std::string name)
     return nullptr;
 }
 
-std::string ArgsParser::findParam(std::string name, int pos)
+bool ArgsParser::has(std::string name)
 {
-    ArgOption *opt = this->findArgOpt(name);
-    try
-    {
-        pos++; // Adjust position to match the parameter index
-        auto param = std::string(
-            opt != nullptr && opt->idx + pos < this->argc ? this->argv[opt->idx + pos] : "");
-        return param;
-    }
-    catch (const std::out_of_range &)
-    {
-        return ""; // Return empty string if out of range
-    }
+    auto it = this->getOpt(name);
+    if (it == nullptr)
+        return false;     // Not found
+    return it->idx != -1; // Found and has been set
+}
+
 }

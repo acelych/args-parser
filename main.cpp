@@ -2,8 +2,10 @@
 #include <vector>
 #include <string>
 
-// 假设您的头文件名为 "args_parser.hpp"
-#include "args_parser.hpp"
+// 假设您的头文件名为 "args_parser.hh"
+#include "args_parser.hh"
+
+using namespace ap;
 
 int main(int argc, char *argv[]) {
     // --- 1. 定义子命令的选项 ---
@@ -48,7 +50,7 @@ int main(int argc, char *argv[]) {
 
     // a. 检查全局选项
     // 无论后续是否调用子命令，我们都可以先检查和处理全局选项。
-    bool verbose_mode = parser.isArgOpt("verbose");
+    bool verbose_mode = parser.has("verbose");
     if (verbose_mode) {
         std::cout << "[Verbose Mode Enabled]" << std::endl;
     }
@@ -65,11 +67,11 @@ int main(int argc, char *argv[]) {
         if (cmd == "init")
         {
             // 通过主 parser 对象获取子命令的参数
-            std::string project_name = parser.findParam("name", 0);
+            std::string project_name = parser.get<std::string>("name", 0);
             std::cout << "正在初始化项目: '" << project_name << "'" << std::endl;
 
-            if (parser.isArgOpt("template")) {
-                std::string template_name = parser.findParam("template", 0);
+            if (parser.has("template")) {
+                std::string template_name = parser.get<std::string>("template", 0);
                 std::cout << "使用模板: '" << template_name << "'" << std::endl;
             } else {
                 std::cout << "使用默认模板。" << std::endl;
@@ -77,14 +79,14 @@ int main(int argc, char *argv[]) {
         }
         else if (cmd == "add")
         {
-            std::string file_path = parser.findParam("file", 0);
-            std::string file_type = parser.findParam("type", 0);
+            std::string file_path = parser.get<std::string>("file", 0);
+            std::string file_type = parser.get<std::string>("type", 0);
             
             std::cout << "准备添加文件: '" << file_path << "'" << std::endl;
             std::cout << "文件类型: '" << file_type << "'" << std::endl;
             
-            if (parser.isArgOpt("dest")) {
-                std::string dest_path = parser.findParam("dest", 0);
+            if (parser.has("dest")) {
+                std::string dest_path = parser.get<std::string>("dest", 0);
                 std::cout << "目标路径: '" << dest_path << "'" << std::endl;
             } else {
                 std::cout << "将添加到默认路径。" << std::endl;
