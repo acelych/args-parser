@@ -83,7 +83,7 @@ public:
     }
     ArgOptionBuilder& set_default(const std::any &a) 
     {
-        if (option.typer == ArgOption::to_str && a.type() == typeid(const char*))
+        if (option.typer.target_type() == typeid(decltype(ArgOption::to_str)) && a.type() == typeid(const char*))
             option.default_value = std::string(std::any_cast<const char*>(a));
         else
             option.default_value = a; 
