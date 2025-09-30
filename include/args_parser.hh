@@ -284,17 +284,11 @@ inline std::error_code ArgsParser::parseArgs()
 {
     ArgOption *curr_opt = nullptr;
 
-    if ((!this->is_subparser && argc <= 1) || (this->is_subparser && argc <= 2))
-    {
-        this->showHelpMsg();
-        return std::make_error_code(std::errc::bad_message);
-    }
-
     if (!this->is_subparser) // Main parser
     {
         for (auto &subparser : this->subparsers)
         {
-            if (subparser.cmd_name == argv[1])
+            if (argc > 1 && subparser.cmd_name == argv[1])
             {
                 this->relative = &subparser; // Set the relative parser
                 return subparser.parseArgs();
