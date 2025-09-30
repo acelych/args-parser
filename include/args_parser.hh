@@ -192,7 +192,11 @@ public:
         if (opt == nullptr)
             throw std::runtime_error("Non-exist arg option.");
         if (pos >= opt->params)
-            throw std::out_of_range("Pos is out of the amount of params.");
+        {
+            if (!opt->has_default)
+                throw std::out_of_range("Pos is out of the amount of params.");
+            return std::any_cast<T>(opt->default_value);
+        }
         auto param = std::string(this->argv[opt->idx + pos + 1]);
         return std::any_cast<T>(opt->typer(param));
     }
