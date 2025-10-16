@@ -41,7 +41,7 @@ public:
     std::any    default_value = {};     ///< The default value (can be any type).
 
     // --- Members below are populated after parsing ---
-    int         idx;                    ///< The index where the option was found in the argv array. -1 if not found.
+    int         idx = -1;               ///< The index where the option was found in the argv array. -1 if not found.
     int         params;                 ///< The actual number of parameters found for this option.
 
     // Basic constructor
@@ -53,7 +53,7 @@ public:
         int least, 
         str2any typer, 
         std::any default_value)
-        : name(n), full_name(fn), description(desc), required(req), least_params(least), idx(-1),
+        : name(n), full_name(fn), description(desc), required(req), least_params(least),
           params(0), typer(typer), default_value(default_value), has_default(!default_value.has_value())
     {
     }
